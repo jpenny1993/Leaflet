@@ -62,6 +62,8 @@ L.Draggable = L.Evented.extend({
 	},
 
 	_onDown: function (e) {
+		if (e._simulated) { return; }
+
 		this._moved = false;
 
 		if (L.DomUtil.hasClass(this._element, 'leaflet-zoom-anim')) { return; }
@@ -93,6 +95,8 @@ L.Draggable = L.Evented.extend({
 	},
 
 	_onMove: function (e) {
+		if (e._simulated) { return; }
+
 		if (e.touches && e.touches.length > 1) {
 			this._moved = true;
 			return;
@@ -148,7 +152,9 @@ L.Draggable = L.Evented.extend({
 		this.fire('drag', e);
 	},
 
-	_onUp: function () {
+	_onUp: function (e) {
+		if (e._simulated) { return; }
+
 		L.DomUtil.removeClass(document.body, 'leaflet-dragging');
 
 		if (this._lastTarget) {
